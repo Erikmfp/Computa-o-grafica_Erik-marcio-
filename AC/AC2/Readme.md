@@ -2,7 +2,7 @@ As novas coordenadas do ponto P é (6,1)
 
 ambas as cordenadas foram alteradas, a cordenada x do ponto 2 para o 6 e a cordenada y foi do 3 para o 1
 
-![Texto alternativo da imagem]([link-da-imagem-copiado](https://github.com/Erikmfp/Computa-o-grafica_Erik-marcio-/blob/5b0c3bb5940c67f42be445ccdd62a17bde867dba/AC/AC2/Imagens/Figure_1.png))
+![Figura 1](./Imagens/Figure_1.png)
 
 
 2) 

@@ -1,0 +1,83 @@
+1. Síntese de Imagens (Computação Gráfica)
+Aqui a ideia é criar algo literalmente do zero. O computador recebe fórmulas matemáticas e coordenadas brutas, e usa isso para "pintar" uma imagem na tela. É exatamente a tecnologia por trás da criação de mundos em jogos 3D e nos filmes da Pixar.
+
+O fluxo é: Dados geométricos -> Imagem final.
+
+Python
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+import numpy as np
+
+# Coordenadas (Dados)
+v = np.array([[-1, -1, 0], [1, -1, 0], [1, 1, 0], [-1, 1, 0], [0, 0, 2]])
+faces = [[v[0], v[1], v[4]], [v[1], v[2], v[4]], [v[2], v[3], v[4]], [v[3], v[0], v[4]], [v[0], v[1], v[2], v[3]]]
+
+# Síntese
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.add_collection3d(Poly3DCollection(faces, facecolors='cyan', edgecolors='blue', alpha=0.7))
+ax.set(xlim=[-2, 2], ylim=[-2, 2], zlim=[0, 3], title="Pirâmide Sintetizada")
+plt.show()
+Para colocar no trabalho: O algoritmo não usou nenhuma câmera. Ele pegou apenas dados matemáticos (os vértices) e sintetizou a imagem de uma pirâmide.
+
+2. Processamento de Imagens
+Sabe quando você clareia uma foto escura pelo celular ou aplica um filtro no Instagram? Isso é processamento. O computador pega uma imagem que já existe, aplica cálculos matemáticos nos pixels, e te devolve uma versão diferente dela.
+
+O fluxo é: Imagem original -> Imagem modificada.
+
+Python
+import cv2
+import matplotlib.pyplot as plt
+
+# Substitua pelo nome de uma foto sua salva na mesma pasta
+img = cv2.imread('foto.jpg', cv2.IMREAD_GRAYSCALE)
+
+# Processamento (Filtro para achar bordas)
+bordas = cv2.Canny(img, 100, 200)
+
+plt.imshow(bordas, cmap='gray')
+plt.title("Processamento: Filtro de Contorno")
+plt.show()
+Para colocar no trabalho: Entrou uma foto comum, e o algoritmo devolveu uma nova imagem destacando apenas as bordas e silhuetas dos objetos.
+
+3. Visão Computacional
+Aqui o objetivo muda completamente: a gente tenta dar um "cérebro" pra máquina. Não queremos gerar uma imagem bonita, mas fazer o computador entender o que tem na foto. É o que o Face ID ou um carro autônomo fazem.
+
+O fluxo é: Imagem -> Informação ou Dados.
+
+Python
+import cv2
+import matplotlib.pyplot as plt
+
+img = cv2.imread('pessoas.jpg')
+cinza = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+# Inteligência Artificial procurando rostos
+modelo = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+rostos = modelo.detectMultiScale(cinza, 1.1, 4)
+
+for (x, y, w, h) in rostos:
+    cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 3)
+
+plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+plt.title(f"Visão: {len(rostos)} rosto(s) detectado(s)")
+plt.show()
+Para colocar no trabalho: O algoritmo leu os pixels e extraiu informações do mundo real, retornando as coordenadas exatas de onde estão os rostos das pessoas.
+
+4. Visualização Computacional
+Essa área resolve o problema de ler informações massantes. Pegamos arquivos complexos (como planilhas financeiras ou matrizes numéricas gigantes) e transformamos em mapas visuais, pro cérebro bater o olho e achar tendências na hora.
+
+O fluxo é: Dados abstratos -> Representação visual.
+
+Python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Dados abstratos (matriz de números simulando vendas, por exemplo)
+dados = np.random.rand(10, 10)
+
+# Visualização (Mapa de Calor)
+plt.imshow(dados, cmap='inferno')
+plt.colorbar(label='Intensidade')
+plt.title("Visualização de Dados em Heatmap")
+plt.show()

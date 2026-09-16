@@ -1,0 +1,362 @@
+# Atividade — Computação Visual
+
+## Objetivo
+
+Esta atividade tem como objetivo apresentar e demonstrar as principais características e diferenças entre quatro áreas relacionadas à **Computação Visual**:
+
+* **Síntese de Imagens (Computação Gráfica)**
+* **Processamento de Imagens**
+* **Visão Computacional**
+* **Visualização Computacional**
+
+Para cada área, foi selecionada uma aplicação prática. Além da explicação dos conceitos, foram utilizados códigos em Python para demonstrar o funcionamento de cada abordagem.
+
+A ideia principal é compreender que, apesar de todas essas áreas trabalharem com imagens e informações visuais, **cada uma possui um objetivo diferente**.
+
+---
+
+# 1. Síntese de Imagens — Computação Gráfica
+
+## O que é?
+
+A **Síntese de Imagens**, também conhecida como Computação Gráfica, trabalha com a criação de imagens a partir de dados matemáticos e geométricos.
+
+Nesse caso, a imagem ainda não existe. O computador recebe informações como **coordenadas, vértices, formas geométricas, cores e posições** e utiliza esses dados para gerar uma representação visual.
+
+Esse conceito está presente em diversas aplicações, como jogos eletrônicos, animações 3D, filmes e simulações.
+
+### Fluxo
+
+**Dados geométricos → Processamento → Imagem**
+
+## Aplicação escolhida
+
+Para demonstrar esse conceito, foi criada uma **pirâmide tridimensional utilizando coordenadas matemáticas**.
+
+O programa define os vértices da pirâmide e suas faces e, a partir dessas informações, gera a representação 3D.
+
+### Código
+
+```python
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+import numpy as np
+
+# Coordenadas dos vértices
+v = np.array([
+    [-1, -1, 0],
+    [1, -1, 0],
+    [1, 1, 0],
+    [-1, 1, 0],
+    [0, 0, 2]
+])
+
+# Definição das faces
+faces = [
+    [v[0], v[1], v[4]],
+    [v[1], v[2], v[4]],
+    [v[2], v[3], v[4]],
+    [v[3], v[0], v[4]],
+    [v[0], v[1], v[2], v[3]]
+]
+
+# Criação da figura 3D
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+ax.add_collection3d(
+    Poly3DCollection(
+        faces,
+        facecolors='cyan',
+        edgecolors='blue',
+        alpha=0.7
+    )
+)
+
+ax.set(
+    xlim=[-2, 2],
+    ylim=[-2, 2],
+    zlim=[0, 3],
+    title="Pirâmide Sintetizada"
+)
+
+plt.show()
+```
+
+## Resultado e análise
+
+Neste exemplo, nenhuma fotografia ou imagem pronta foi utilizada como entrada.
+
+O programa recebeu apenas **dados matemáticos representando os vértices e as faces do objeto**. A partir dessas informações, uma imagem tridimensional foi sintetizada.
+
+Isso demonstra uma característica fundamental da Computação Gráfica: **a imagem é criada a partir de uma representação matemática ou geométrica**.
+
+---
+
+# 2. Processamento de Imagens
+
+## O que é?
+
+O **Processamento de Imagens** trabalha com imagens que já existem.
+
+O objetivo é aplicar operações matemáticas sobre os pixels para modificar, melhorar ou extrair determinadas características da imagem.
+
+Alguns exemplos comuns são:
+
+* Ajuste de brilho e contraste;
+* Redução de ruído;
+* Aplicação de filtros;
+* Detecção de bordas;
+* Alteração de cores;
+* Redimensionamento de imagens.
+
+### Fluxo
+
+**Imagem original → Processamento → Imagem modificada**
+
+## Aplicação escolhida
+
+Como aplicação, foi utilizado o algoritmo **Canny**, disponível na biblioteca OpenCV, para realizar a **detecção de bordas** de uma imagem.
+
+O algoritmo identifica regiões onde existe uma mudança significativa de intensidade entre os pixels, permitindo destacar os contornos presentes na imagem.
+
+### Código
+
+```python
+import cv2
+import matplotlib.pyplot as plt
+
+# Carregamento da imagem em escala de cinza
+img = cv2.imread('foto.jpg', cv2.IMREAD_GRAYSCALE)
+
+# Detecção de bordas
+bordas = cv2.Canny(img, 100, 200)
+
+# Exibição do resultado
+plt.imshow(bordas, cmap='gray')
+plt.title("Processamento: Detecção de Bordas")
+plt.show()
+```
+
+## Resultado e análise
+
+Neste caso, uma imagem existente foi utilizada como entrada.
+
+O algoritmo aplicou uma transformação sobre os pixels e produziu uma nova representação da imagem, destacando principalmente os **contornos dos objetos**.
+
+Dessa forma, o objetivo não é compreender o que aparece na imagem, mas **modificar ou extrair características da própria imagem**.
+
+---
+
+# 3. Visão Computacional
+
+## O que é?
+
+A **Visão Computacional** busca fazer com que computadores sejam capazes de **extrair informações e interpretar elementos presentes em imagens ou vídeos**.
+
+Diferentemente do Processamento de Imagens, o objetivo aqui não é apenas modificar a imagem. A intenção é obter informações sobre o que está sendo observado.
+
+Algumas aplicações incluem:
+
+* Detecção de objetos;
+* Reconhecimento facial;
+* Sistemas de segurança;
+* Análise de imagens médicas;
+* Veículos autônomos;
+* Sistemas de reconhecimento.
+
+### Fluxo
+
+**Imagem → Análise → Informação**
+
+## Aplicação escolhida
+
+Para demonstrar o conceito, foi utilizado um classificador Haar Cascade do OpenCV para realizar a **detecção de rostos** em uma imagem.
+
+O programa analisa a imagem e retorna as regiões onde identificou possíveis rostos.
+
+### Código
+
+```python
+import cv2
+import matplotlib.pyplot as plt
+
+# Carregamento da imagem
+img = cv2.imread('pessoas.jpg')
+
+# Conversão para escala de cinza
+cinza = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+# Carregamento do modelo de detecção facial
+modelo = cv2.CascadeClassifier(
+    cv2.data.haarcascades +
+    'haarcascade_frontalface_default.xml'
+)
+
+# Detecção dos rostos
+rostos = modelo.detectMultiScale(
+    cinza,
+    scaleFactor=1.1,
+    minNeighbors=4
+)
+
+# Desenho dos resultados
+for (x, y, w, h) in rostos:
+    cv2.rectangle(
+        img,
+        (x, y),
+        (x + w, y + h),
+        (0, 255, 0),
+        3
+    )
+
+# Exibição
+plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+plt.title(f"Visão Computacional: {len(rostos)} rosto(s) detectado(s)")
+plt.show()
+```
+
+## Resultado e análise
+
+Neste exemplo, o programa não apenas modificou a imagem. Ele analisou os pixels e tentou identificar uma característica específica do conteúdo: **a presença de rostos**.
+
+Como resultado, são obtidas informações como as coordenadas e o tamanho das regiões identificadas.
+
+Isso representa uma diferença importante em relação ao Processamento de Imagens:
+
+> No processamento, o foco está na própria imagem e em suas características.
+
+> Na visão computacional, o foco está em **extrair informações sobre aquilo que a imagem representa**.
+
+---
+
+# 4. Visualização Computacional
+
+## O que é?
+
+A **Visualização Computacional** utiliza representações visuais para facilitar a compreensão de grandes quantidades de dados.
+
+Em vez de analisar diretamente uma grande tabela de números, podemos transformar esses valores em elementos visuais, como:
+
+* Gráficos;
+* Mapas;
+* Diagramas;
+* Mapas de calor;
+* Superfícies tridimensionais.
+
+O objetivo é tornar padrões, variações e relações entre os dados mais fáceis de identificar.
+
+### Fluxo
+
+**Dados → Representação visual → Interpretação humana**
+
+## Aplicação escolhida
+
+Para demonstrar o conceito, foi criada uma matriz contendo valores numéricos e posteriormente transformada em um **mapa de calor (heatmap)**.
+
+Nesse tipo de representação, diferentes valores são apresentados através de diferentes intensidades de cor.
+
+### Código
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Geração de dados numéricos
+dados = np.random.rand(10, 10)
+
+# Criação do mapa de calor
+plt.imshow(dados, cmap='inferno')
+
+plt.colorbar(label='Intensidade')
+plt.title("Visualização de Dados — Heatmap")
+
+plt.show()
+```
+
+## Resultado e análise
+
+O código inicialmente possui apenas uma matriz com **100 valores numéricos**.
+
+Esses valores, isoladamente, são difíceis de interpretar visualmente. Ao transformá-los em um mapa de calor, é possível identificar rapidamente regiões com valores maiores ou menores.
+
+Nesse caso, a imagem não representa um objeto do mundo real e também não está sendo modificada para extrair características. Ela funciona como uma **representação visual de dados abstratos**, facilitando sua análise.
+
+---
+
+# Comparação entre as áreas
+
+Apesar de utilizarem recursos semelhantes, as quatro áreas possuem objetivos diferentes.
+
+| Área                           | Entrada                         | Objetivo                                       | Saída                |
+| ------------------------------ | ------------------------------- | ---------------------------------------------- | -------------------- |
+| **Síntese de Imagens**         | Dados geométricos e matemáticos | Criar uma imagem                               | Imagem               |
+| **Processamento de Imagens**   | Imagem existente                | Modificar ou extrair características da imagem | Imagem modificada    |
+| **Visão Computacional**        | Imagem ou vídeo                 | Interpretar e extrair informações              | Dados/informações    |
+| **Visualização Computacional** | Dados numéricos ou abstratos    | Facilitar a interpretação dos dados            | Representação visual |
+
+## Resumindo
+
+Uma maneira simples de diferenciar as áreas é pensar nas seguintes perguntas:
+
+* **Síntese de Imagens:** *Como criar uma imagem a partir de dados?*
+* **Processamento de Imagens:** *Como modificar ou melhorar uma imagem que já existe?*
+* **Visão Computacional:** *Como extrair informações sobre o que aparece em uma imagem?*
+* **Visualização Computacional:** *Como representar dados de forma visual para facilitar sua compreensão?*
+
+---
+
+# Tecnologias utilizadas
+
+Os exemplos foram desenvolvidos utilizando **Python** e algumas bibliotecas voltadas para computação visual e análise de dados.
+
+* **Python**
+* **OpenCV**
+* **NumPy**
+* **Matplotlib**
+
+## Instalação
+
+As bibliotecas podem ser instaladas com:
+
+```bash
+pip install opencv-python numpy matplotlib
+```
+
+---
+
+# Estrutura do projeto
+
+Uma possível organização do repositório é:
+
+```text
+computacao-visual/
+│
+├── README.md
+│
+├── sintese/
+│   └── piramide.py
+│
+├── processamento/
+│   ├── processamento.py
+│   └── foto.jpg
+│
+├── visao/
+│   ├── deteccao_faces.py
+│   └── pessoas.jpg
+│
+└── visualizacao/
+    └── heatmap.py
+```
+
+Cada pasta contém o exemplo correspondente a uma das áreas estudadas.
+
+---
+
+# Conclusão
+
+A atividade permitiu observar na prática que **Computação Visual não representa uma única técnica**, mas um conjunto de áreas que utilizam computadores para trabalhar com informações visuais de diferentes maneiras.
+
+Na **Síntese de Imagens**, uma representação matemática foi utilizada para criar uma imagem. No **Processamento de Imagens**, uma imagem existente foi transformada para destacar determinadas características. Na **Visão Computacional**, a imagem foi analisada para obter informações sobre seu conteúdo. Por fim, na **Visualização Computacional**, dados numéricos foram transformados em uma representação visual para facilitar sua interpretação.
+
+Apesar de existirem situações em que essas áreas são utilizadas em conjunto, seus objetivos e fluxos de trabalho são diferentes. Com os exemplos apresentados, é possível visualizar essas diferenças de forma prática.

@@ -1,0 +1,27 @@
+AC04 - Computação Gráfica
+Aluno: Erik Marcio Fernandes
+
+1. Objetos e materiais aplicados
+Mantive a cena do quarto feita na AP1 com o letreiro Ibmec na parede do fundo. Os três materiais pedidos na atividade foram colocados nos seguintes objetos autorais:
+- Livro: MAT_Lambert
+- Mesa: MAT_Phong
+- Luminária (cabo, base e cúpula): MAT_BlinnPhong
+
+2. Iluminação da cena
+Coloquei a luz principal dentro da cúpula da luminária de mesa (desmarcando a opção de sombra da cúpula para a luz conseguir atravessar). Assim a luz pega em ângulo direto sobre o tampo da mesa, o livro e a parede do fundo. Mantive a mesma posição e força da luz durante os testes para comparar os três materiais nas mesmas condições.
+
+3. Valores configurados nos materiais
+Configurei os três materiais pelo Principled BSDF no Blender 4.5, mudando a cor base, a rugosidade (Roughness) e o Specular (IOR Level):
+
+- MAT_Lambert (Livro): Cor clara/azulada, Roughness em 1.0 e Specular IOR Level em 0.0.
+- MAT_Phong (Mesa): Cor cinza escuro, Roughness em 0.2 e Specular IOR Level em 0.5.
+- MAT_BlinnPhong (Luminária): Cor escura, Roughness em 0.1 e Specular IOR Level em 0.9.
+
+4. Comparação observada na cena
+Olhando os três objetos sob a mesma iluminação, a principal diferença foi no foco do brilho (highlight):
+No livro (MAT_Lambert), como a rugosidade está em 1.0 e o especular zerado, o material ficou totalmente fosco. Ele recebe a luz de forma difusa, mas não forma nenhum reflexo brilhante, não importa o ângulo da câmera.
+Na mesa (MAT_Phong), com Roughness em 0.2 e Specular em 0.5, já aparece claramente o reflexo da lâmpada no tampo, deixando a superfície com aparência lisa e um brilho médio um pouco mais espalhado.
+Na luminária (MAT_BlinnPhong), deixando a rugosidade mais baixa (0.1) e subindo o IOR Level para 0.9, o ponto de brilho fica mais forte, nítido e concentrado do que no Phong.
+
+5. Limitação do Principled BSDF
+Vale notar que o Principled BSDF do Blender 4.5 trabalha com renderização baseada em física (PBR), então ele não calcula literalmente as equações matemáticas clássicas de Phong e Blinn-Phong. Os ajustes de Roughness e IOR Level feitos na atividade servem como uma aproximação visual para simular a diferença entre esses modelos na prática.
